@@ -1,5 +1,3 @@
-
-
 import java.sql.*;
         import java.nio.file.*;
         import java.io.*;
@@ -14,12 +12,15 @@ public class main_class{
 
                 System.out.println("Connection to Store DB succesfull!");
             }
+            insert_User("Petr");
         }
         catch(Exception ex){
             System.out.println("Connection failed...");
 
             System.out.println(ex);
         }
+
+
     }
 
     public static Connection getConnection() throws SQLException, IOException{
@@ -33,5 +34,9 @@ public class main_class{
         String password = "12345";
 
         return DriverManager.getConnection(url, username, password);
+    }
+    public static void insert_User(String name){
+        System.out.println("Insert_Start");
+
     }
 }

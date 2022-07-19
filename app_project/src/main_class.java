@@ -9,7 +9,7 @@ public class main_class{
         try{
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
             try (Connection conn = getConnection()){
-
+               // conn.close();
                 System.out.println("Connection to Store DB succesfull!");
                 insert_User(conn);
                 conn.close();
@@ -31,20 +31,26 @@ public class main_class{
         //try(InputStream in = Files.newInputStream(Paths.get("database.properties"))){
         //    props.load(in);
         //}
-        String url = "jdbc:mysql://localhost/test?serverTimezone=Europe/Moscow&useSSL=false";
+        String url = "jdbc:mysql://localhost/project?serverTimezone=Europe/Moscow&useSSL=false";
         String username = "zhenya";
         String password = "12345";
 
         return DriverManager.getConnection(url, username, password);
     }
     public static void insert_User(Connection cdb){
-        Statement statement = cdb.createStatement();
-        System.out.println("Insert_Start");
-        ResultSet rs;
-        rs = statement.executeQuery("SELECT name_User FROM user");
-        while ( rs.next() ) {
-            String Name = rs.getString("name_User");
-            System.out.println(Name);
+        //cdb = getConnection();
+        try {
+            Statement statement = cdb.createStatement();
+            System.out.println("Insert_Start");
+            ResultSet rs;
+            rs = statement.executeQuery("SELECT name_User FROM user");
+            while ( rs.next() ) {
+               String Name = rs.getString("name_User");
+                System.out.println(Name);
+             }
+        }
+        catch (SQLException se) {
+            se.printStackTrace();
         }
 
     }

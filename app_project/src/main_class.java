@@ -24,10 +24,10 @@ public class main_class{
 
     public static Connection getConnection() throws SQLException, IOException{
 
-        Properties props = new Properties();
-        try(InputStream in = Files.newInputStream(Paths.get("database.properties"))){
-            props.load(in);
-        }
+        //Properties props = new Properties();
+        //try(InputStream in = Files.newInputStream(Paths.get("database.properties"))){
+        //    props.load(in);
+        //}
         String url = "jdbc:mysql://localhost/test?serverTimezone=Europe/Moscow&useSSL=false";
         String username = "zhenya";
         String password = "12345";

@@ -11,8 +11,10 @@ public class main_class{
             try (Connection conn = getConnection()){
 
                 System.out.println("Connection to Store DB succesfull!");
+                insert_User(conn);
+                conn.close();
             }
-            insert_User("Petr");
+
         }
         catch(Exception ex){
             System.out.println("Connection failed...");
@@ -35,8 +37,15 @@ public class main_class{
 
         return DriverManager.getConnection(url, username, password);
     }
-    public static void insert_User(String name){
+    public static void insert_User(Connection cdb){
+        Statement statement = cdb.createStatement();
         System.out.println("Insert_Start");
+        ResultSet rs;
+        rs = statement.executeQuery("SELECT name_User FROM user");
+        while ( rs.next() ) {
+            String Name = rs.getString("name_User");
+            System.out.println(Name);
+        }
 
     }
 }

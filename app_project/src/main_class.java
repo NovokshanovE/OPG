@@ -2,6 +2,8 @@ import java.sql.*;
         import java.nio.file.*;
         import java.io.*;
         import java.util.*;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.Session;
 
 class User {
     String name;
@@ -57,11 +59,12 @@ class Point {
 
 }
 public class main_class{
-
+    //private Connection con = null;
+    //private Session session = null;
     public static void main(String[] args) {
         try{
             Class.forName("com.mysql.cj.jdbc.Driver").getDeclaredConstructor().newInstance();
-            try (Connection conn = getConnection()){
+            try (Connection conn = get_local_Connection()){
                // conn.close();
                 User new_User = new User();
                 System.out.println("Connection to Store DB succesfull!");
@@ -80,7 +83,7 @@ public class main_class{
 
     }
 
-    public static Connection getConnection() throws SQLException, IOException{
+    public static Connection get_local_Connection() throws SQLException, IOException{
 
         Properties props = new Properties();
         try(InputStream in = Files.newInputStream(Paths.get("database.properties"))){
@@ -96,6 +99,93 @@ public class main_class{
         */
         return DriverManager.getConnection(url, username, password);
     }
+    /*
+    public static Connection ssh_connection() throws SQLException{
+
+        String sshHost = "";
+        String sshuser = "";
+        String dbuserName = "";
+        String dbpassword = "";
+        String SshKeyFilepath = "/Users/XXXXXX/.ssh/id_rsa";
+
+        int localPort = 8740; // any free port can be used
+        String remoteHost = "127.0.0.1";
+        int remotePort = 3306;
+        String localSSHUrl = "localhost";
+        /***************//*
+        String driverName = "com.mysql.jdbc.Driver";
+
+        try {
+            java.util.Properties config = new java.util.Properties();
+            JSch jsch = new JSch();
+            session = jsch.getSession(sshuser, sshHost, 22);
+            jsch.addIdentity(SshKeyFilepath);
+            config.put("StrictHostKeyChecking", "no");
+            config.put("ConnectionAttempts", "3");
+            session.setConfig(config);
+            session.connect();
+
+            System.out.println("SSH Connected");
+
+            Class.forName(driverName).newInstance();
+
+            int assinged_port = session.setPortForwardingL(localPort, remoteHost, remotePort);
+
+            System.out.println("localhost:" + assinged_port + " -> " + remoteHost + ":" + remotePort);
+            System.out.println("Port Forwarded");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        /*
+        String url = "jdbc:mysql://localhost/project?serverTimezone=Europe/Moscow&useSSL=false";
+        String username = "zhenya";
+        String password = "12345";
+
+        //return DriverManager.getConnection(url, username, password);
+
+    }
+    */
+    /*
+    public Connection getConnection() {
+        Connection con = null;
+
+        var settings = new DbSettingsController();
+
+        boolean useSSH = settings.getSetting(SettingKey.UseSSH).equals("true");
+        String sshPort = settings.getSetting(SettingKey.SSHPort);
+        String sqlIp = settings.getSetting(SettingKey.MySqlIP);
+        String sqlPort = settings.getSetting(SettingKey.MySqlPort);
+
+        if(useSSH) {
+            JSch jSch = new JSch();
+            try {
+                this.session = jSch.getSession(settings.getSetting(SettingKey.SSHUser),
+                        settings.getSetting(SettingKey.SSHHost),
+                        Integer.valueOf(sshPort));
+                this.session.setPassword(settings.getSetting(SettingKey.SSHPassword));
+                this.session.setConfig("StrictHostKeyChecking", "no");
+                this.session.connect();
+                this.session.setPortForwardingL(Integer.parseInt(sshPort), sqlIp, Integer.parseInt(sqlPort));
+            } catch (JSchException e) {
+                e.printStackTrace();
+            }
+        }
+
+        var connectionString = String.format("jdbc:mysql://%s:%s/%s?autoReconnect=true&useSSL=false",
+                sqlIp, useSSH ? sshPort : sqlPort,
+                settings.getSetting(SettingKey.MySqlShema));
+
+        var user = settings.getSetting(SettingKey.MySqlUser);
+        var password = settings.getSetting(SettingKey.MySqlPassword);
+
+        try {
+            con = DriverManager.getConnection(connectionString, user, password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return con;
+    }*/
 
 }
 

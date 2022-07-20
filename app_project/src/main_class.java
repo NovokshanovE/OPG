@@ -82,14 +82,18 @@ public class main_class{
 
     public static Connection getConnection() throws SQLException, IOException{
 
-        //Properties props = new Properties();
-        //try(InputStream in = Files.newInputStream(Paths.get("database.properties"))){
-        //    props.load(in);
-        //}
+        Properties props = new Properties();
+        try(InputStream in = Files.newInputStream(Paths.get("database.properties"))){
+            props.load(in);
+        }
+        String url = props.getProperty("url");
+        String username = props.getProperty("username");
+        String password = props.getProperty("password");
+        /*
         String url = "jdbc:mysql://localhost/project?serverTimezone=Europe/Moscow&useSSL=false";
         String username = "zhenya";
         String password = "12345";
-
+        */
         return DriverManager.getConnection(url, username, password);
     }
 

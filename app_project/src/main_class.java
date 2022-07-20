@@ -54,6 +54,11 @@ public class main_class{
         }
 
     }
-    public static void insert_User(){}
+    public static void insert_User(){
+
+    }
+    public static void insert_Point(){
+
+    }
 }
 

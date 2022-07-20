@@ -11,7 +11,7 @@ public class main_class{
             try (Connection conn = getConnection()){
                // conn.close();
                 System.out.println("Connection to Store DB succesfull!");
-                insert_User(conn);
+                select_User(conn);
                 conn.close();
             }
 
@@ -37,7 +37,7 @@ public class main_class{
 
         return DriverManager.getConnection(url, username, password);
     }
-    public static void insert_User(Connection cdb){
+    public static void select_User(Connection cdb){
         //cdb = getConnection();
         try {
             Statement statement = cdb.createStatement();
@@ -54,4 +54,6 @@ public class main_class{
         }
 
     }
+    public static void insert_User(){}
 }
+
